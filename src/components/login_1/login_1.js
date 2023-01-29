@@ -50,7 +50,9 @@ const Login_1 = () => {
             setPasswordCheck(<h6 className='Errors'>Check your password</h6>)
             setDisable(true)
         } if (regexp.test(valid) === false) {
-            setPasswordCheck(<h6 className='Errors'>Password must consist of lowercase and uppercase characters, as well as at least one special character</h6>)
+            setPasswordCheck(<h6 className='Errors'>
+                Password must consist of lowercase and uppercase characters, as well as at least one special character
+            </h6>)
         }
         else {
             setPasswordCheck('')
