@@ -33,13 +33,21 @@ const Login_1 = () => {
 
     useEffect(() => {
         response = (Object.values(user.response)).join("");
+        console.log(response)
         if (response == "true") {
             alert('ok');
+            response = ""
             return redirect('/profile')
         } if (response == "") {
-
+            setPasswordCheck(<h6 className='Errors'>
+                Server error
+            </h6>);
+        } if (response == null || undefined) {
+            setPasswordCheck(<h6 className='Errors'>
+                Server error
+            </h6>);
         }
-        else {
+        if (response == "false") {
             setPasswordCheck(<h6 className='Errors'>
                 Incorrect login or password
             </h6>);
@@ -80,17 +88,10 @@ const Login_1 = () => {
 
     const PasswordBlur = (event) => {
         const valid = event.target.value;
-        const regexp = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g;
         if (valid.length < 1) {
             setPasswordCheck(<h6 className='Errors'>Check your password</h6>);
             setDisable(true);
-        } if (regexp.test(valid) === false) {
-            setDisable(true);
-            setPasswordCheck(<h6 className='Errors'>
-                Password must consist of lowercase and uppercase characters, as well as at least one special character
-            </h6>);
-        }
-        else {
+        } else {
             setPasswordCheck('');
             setDisable(false);
             setSubmit('SUBMIT');
@@ -119,7 +120,7 @@ const Login_1 = () => {
     const mouseEnter = () => {
         if (disable) {
             setSubmit("You won't make it.");
-            setScale('scale(1.5)');
+            setScale('scale(1.3)');
             setTimeout(() => {
                 setScale('scale(-1)')
             }, 350);
@@ -137,34 +138,36 @@ const Login_1 = () => {
     return (
         <div className='login_1_all'>
             <h2 className='h2_login_1'>Do not enter!!!</h2>
-            <div className='login_enter_field'>
-                <input type='email'
-                    id='email'
-                    className='input_email'
-                    placeholder='email'
-                    value={email}
-                    onChange={handleChange_email}
-                    onBlur={EmailBlur}
-                />
-            </div>
-            <div className='errors_div'>
-                {EmailCheck}
-            </div>
-            <div className='login_enter_field'>
-                <input type={type}
-                    id='password'
-                    className='input_password'
-                    placeholder='password'
-                    value={password}
-                    onChange={handleChange_password}
-                    onBlur={PasswordBlur}
-                />
-                <button className='show_password_button' onClick={typeChanger}>{showPassImg}</button>
-            </div>
-            <div className='errors_div'>{PasswordCheck}</div>
-            <div onMouseEnter={mouseEnter} onMouseLeave={mouseOver}>
-                <button disabled={disable} style={{ transform: scale }} className='submit_button' type='submit' onClick={handleSubmit}>{submit}</button>
-            </div>
+            <form onSubmit={handleSubmit}>
+                <div className='login_enter_field'>
+                    <input type='email'
+                        id='email'
+                        className='input_email'
+                        placeholder='email'
+                        value={email}
+                        onChange={handleChange_email}
+                        onBlur={EmailBlur}
+                    />
+                </div>
+                <div className='errors_div'>
+                    {EmailCheck}
+                </div>
+                <div className='login_enter_field'>
+                    <input type={type}
+                        id='password'
+                        className='input_password'
+                        placeholder='password'
+                        value={password}
+                        onChange={handleChange_password}
+                        onBlur={PasswordBlur}
+                    />
+                    <button className='show_password_button' onClick={typeChanger}>{showPassImg}</button>
+                </div>
+                <div className='errors_div'>{PasswordCheck}</div>
+                <div onMouseEnter={mouseEnter} onMouseLeave={mouseOver}>
+                    <button disabled={disable} style={{ transform: scale }} className='submit_button' type='submit' onClick={handleSubmit}>{submit}</button>
+                </div>
+            </form>
             <hr className='hr_login_1' />
             <a href='#' className='Button_no_account'>No account? <br />
                 Sign up now! </a>
